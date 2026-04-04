@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>どうぞどうぞ</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f5f5f3;
+      --bg3: #efefec;
+      --text: #1a1a18;
+      --text2: #6b6b67;
+      --border: rgba(0,0,0,0.12);
+      --border2: rgba(0,0,0,0.22);
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark: #0F6E56;
+      --green-mid: #5DCAA5;
+      --blue-light: #E6F1FB;
+      --blue: #185FA5;
+      --amber-light: #FAEEDA;
+      --amber: #854F0B;
+      --chip: #E8A020;
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1c;
+        --bg2: #2a2a28;
+        --bg3: #323230;
+        --text: #f0f0ec;
+        --text2: #a0a09a;
+        --border: rgba(255,255,255,0.12);
+        --border2: rgba(255,255,255,0.22);
+        --green-light: #04342C;
+        --green: #1D9E75;
+        --green-dark: #5DCAA5;
+        --green-mid: #1D9E75;
+        --blue-light: #042C53;
+        --blue: #85B7EB;
+        --amber-light: #412402;
+        --amber: #FAC775;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: var(--bg3);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    #app { width: 100%; max-width: 480px; }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Setup ── */
+    .setup-card {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      padding: 2rem 1.5rem;
+      margin-top: 1rem;
+    }
+    .setup-title {
+      font-size: 28px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .setup-sub {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+    }
+    .num-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .num-btn {
+      background: var(--bg2);
+      border: 1.5px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 14px 4px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      color: var(--text);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .num-btn.sel {
+      background: var(--green-light);
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+    .setup-info {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 1.5rem;
+      min-height: 20px;
+    }
+    .btn-start {
+      width: 100%;
+      background: var(--green);
+      color: #E1F5EE;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-start:hover { background: var(--green-dark); }
+
+    /* ── Game ── */
+    .deck-info {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+      margin: 0.5rem 0 2px;
+    }
+    .turn-wrap { text-align: center; margin-bottom: 4px; min-height: 24px; }
+    .turn-badge {
+      display: inline-block;
+      border-radius: 6px;
+      padding: 2px 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .turn-you { background: var(--blue-light); color: var(--blue); }
+    .turn-ai  { background: var(--amber-light); color: var(--amber); }
+
+    .card-display {
+      background: var(--bg);
+      border: 2px solid var(--border2);
+      border-radius: var(--radius-lg);
+      text-align: center;
+      padding: 1.5rem 1rem 1.25rem;
+      margin: 0.5rem 0;
+    }
+    .card-number {
+      font-size: 72px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+    }
+    .chip-on-card {
+      font-size: 18px;
+      color: var(--text2);
+      margin-top: 8px;
+      min-height: 26px;
+    }
+    .chip-icon { color: var(--chip); }
+
+    .status-msg {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text2);
+      min-height: 20px;
+      margin: 4px 0;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 0.75rem 0;
+    }
+    .btn-take {
+      background: var(--green);
+      color: #E1F5EE;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-take:hover { background: var(--green-dark); }
+    .btn-pass {
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-pass:hover { background: var(--bg2); }
+    .btn-take:disabled, .btn-pass:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .players-wrap { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .player-row {
+      background: var(--bg2);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      border: 1.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .player-row.is-active { border-color: var(--green); }
+    .player-row.is-you    { border-color: var(--blue); }
+    .player-row.is-active.is-you { border-color: var(--green); }
+
+    .p-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .p-name { font-size: 13px; font-weight: 500; color: var(--text); }
+    .p-meta { display: flex; gap: 12px; align-items: center; font-size: 13px; }
+    .p-chips { color: var(--text2); }
+    .p-score { font-weight: 500; color: var(--text); }
+
+    .cards-list { display: flex; flex-wrap: wrap; gap: 3px; }
+    .card-tag {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 7px;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .card-tag.run {
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-color: var(--green-mid);
+    }
+    .no-cards { font-size: 12px; color: var(--text2); }
+
+    /* ── Result ── */
+    .result-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border2);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .result-title {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .result-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .result-table th {
+      font-weight: 500;
+      padding: 6px 8px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text2);
+    }
+    .result-table td {
+      padding: 6px 8px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text);
+    }
+    .result-table tr.winner td {
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-weight: 500;
+    }
+    .btn-restart {
+      background: var(--green);
+      color: #E1F5EE;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: 12px 32px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-restart:hover { background: var(--green-dark); }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Setup ── -->
+  <div id="screen-setup" class="screen active">
+    <div class="setup-card">
+      <div class="setup-title">どうぞどうぞ</div>
+      <div class="setup-sub">No Thanks! ベースのカードゲーム</div>
+      <div style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:0.75rem;">プレイヤー人数を選んでください（あなた＋AI）</div>
+      <div class="num-grid" id="num-grid"></div>
+      <div class="setup-info" id="setup-info"></div>
+      <button class="btn-start" onclick="startGame()">ゲーム開始</button>
+    </div>
+  </div>
+
+  <!-- ── Game ── -->
+  <div id="screen-game" class="screen">
+    <div class="deck-info" id="deck-info">山札: -- 枚</div>
+    <div class="turn-wrap" id="turn-wrap"></div>
+    <div class="card-display">
+      <div class="card-number" id="card-number">--</div>
+      <div class="chip-on-card" id="chip-on-card"></div>
+    </div>
+    <div class="status-msg" id="status-msg"></div>
+    <div class="btn-row">
+      <button class="btn-take" id="btn-take" onclick="playerAction('take')">取る</button>
+      <button class="btn-pass" id="btn-pass" onclick="playerAction('pass')">どうぞどうぞ</button>
+    </div>
+    <div class="players-wrap" id="players-wrap"></div>
+  </div>
+
+  <!-- ── Result ── -->
+  <div id="screen-result" class="screen">
+    <div class="result-card">
+      <div class="result-title" id="result-title"></div>
+      <table class="result-table" id="result-table"></table>
+      <button class="btn-restart" onclick="showSetup()">もう一度</button>
+    </div>
+  </div>
+
+</div>
+<script>
+const CHIP_MAP = {2:11,3:11,4:11,5:11,6:9,7:7};
+let G = {};
+let selectedN = 3;
+
+function showScreen(id) {
+  ['screen-setup','screen-game','screen-result'].forEach(s => {
+    document.getElementById(s).classList.toggle('active', s === id);
+  });
+}
+
+function buildSetup() {
+  const grid = document.getElementById('num-grid');
+  grid.innerHTML = '';
+  for (let n = 2; n <= 6; n++) {
+    const b = document.createElement('button');
+    b.className = 'num-btn' + (n === selectedN ? ' sel' : '');
+    b.textContent = n + '人';
+    b.onclick = () => { selectedN = n; buildSetup(); };
+    grid.appendChild(b);
+  }
+  const chips = CHIP_MAP[selectedN];
+  document.getElementById('setup-info').textContent =
+    `チップ ${chips} 枚 / 人　（AIは ${selectedN - 1} 人）`;
+}
+
+function showSetup() { showScreen('screen-setup'); buildSetup(); }
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startGame() {
+  const n = selectedN;
+  const chips = CHIP_MAP[n];
+  const all = [];
+  for (let i = 3; i <= 35; i++) all.push(i);
+  shuffle(all);
+  const deck = all.slice(9);
+  const players = [];
+  for (let i = 0; i < n; i++) {
+    players.push({ name: i === 0 ? 'あなた' : 'AI ' + i, isHuman: i === 0, chips, cards: [] });
+  }
+  G = { deck, chipsOnCard: 0, players, current: 0, currentCard: null, phase: 'playing' };
+  showScreen('screen-game');
+  setButtons(true);
+  nextCard();
+  render();
+  if (!G.players[G.current].isHuman) setTimeout(aiTurn, 800);
+}
+
+function nextCard() {
+  if (G.deck.length === 0) { endGame(); return; }
+  G.currentCard = G.deck.pop();
+  G.chipsOnCard = 0;
+}
+
+function calcScore(cards, chips) {
+  if (cards.length === 0) return -chips;
+  const s = [...cards].sort((a, b) => a - b);
+  let score = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (i === 0 || s[i] !== s[i - 1] + 1) score += s[i];
+  }
+  return score - chips;
+}
+
+function getRuns(cards) {
+  const s = [...cards].sort((a, b) => a - b);
+  const r = new Set();
+  for (let i = 0; i < s.length; i++) {
+    if (s.includes(s[i] - 1) || s.includes(s[i] + 1)) r.add(s[i]);
+  }
+  return r;
+}
+
+function render() {
+  document.getElementById('deck-info').textContent = `山札: ${G.deck.length} 枚`;
+  document.getElementById('card-number').textContent = G.currentCard ?? '--';
+  const c = G.chipsOnCard;
+  document.getElementById('chip-on-card').innerHTML =
+    c > 0 ? `<span class="chip-icon">◉</span> × ${c}` : '';
+
+  const cur = G.players[G.current];
+  const tw = document.getElementById('turn-wrap');
+  if (cur.isHuman) {
+    tw.innerHTML = '<span class="turn-badge turn-you">あなたの番</span>';
+  } else {
+    tw.innerHTML = `<span class="turn-badge turn-ai">${cur.name} の番</span>`;
+  }
+
+  const wrap = document.getElementById('players-wrap');
+  wrap.innerHTML = '';
+  G.players.forEach((p, i) => {
+    const runs = getRuns(p.cards);
+    const cardHtml = p.cards.sort((a, b) => a - b)
+      .map(c => `<span class="card-tag${runs.has(c) ? ' run' : ''}">${c}</span>`)
+      .join('');
+    const score = calcScore(p.cards, p.chips);
+    const row = document.createElement('div');
+    row.className = 'player-row' + (i === G.current ? ' is-active' : '') + (p.isHuman ? ' is-you' : '');
+    row.innerHTML = `
+      <div class="p-header">
+        <span class="p-name">${p.isHuman ? '👤 ' : ''}${p.name}</span>
+        <span class="p-meta">
+          <span class="p-chips"><span class="chip-icon">◉</span> ${p.chips}</span>
+          <span class="p-score">${score}点</span>
+        </span>
+      </div>
+      <div class="cards-list">
+        ${cardHtml || '<span class="no-cards">カードなし</span>'}
+      </div>`;
+    wrap.appendChild(row);
+  });
+}
+
+function setButtons(on) {
+  document.getElementById('btn-take').disabled = !on;
+  document.getElementById('btn-pass').disabled = !on;
+}
+
+function playerAction(act) {
+  const p = G.players[G.current];
+  if (!p.isHuman || G.phase !== 'playing') return;
+  if (act === 'pass' && p.chips <= 0) {
+    document.getElementById('status-msg').textContent = 'チップがありません。カードを取ってください';
+    return;
+  }
+  if (act === 'take') {
+    p.cards.push(G.currentCard);
+    p.chips += G.chipsOnCard;
+    document.getElementById('status-msg').textContent = `カード ${G.currentCard} を取りました`;
+    if (G.deck.length === 0) { render(); setTimeout(endGame, 600); return; }
+    nextCard();
+  } else {
+    p.chips--; G.chipsOnCard++;
+    document.getElementById('status-msg').textContent = 'どうぞどうぞ…';
+    advanceTurn();
+    render();
+    if (!G.players[G.current].isHuman) { setButtons(false); setTimeout(aiTurn, 800); }
+    return;
+  }
+  render();
+  if (G.phase === 'playing' && !G.players[G.current].isHuman) { setButtons(false); setTimeout(aiTurn, 800); }
+}
+
+function advanceTurn() {
+  G.current = (G.current + 1) % G.players.length;
+}
+
+function aiDecide(ai) {
+  const card = G.currentCard;
+  const chips = G.chipsOnCard;
+  if (ai.chips <= 0) return 'take';
+  const sorted = [...ai.cards].sort((a, b) => a - b);
+  if (sorted.includes(card - 1) || sorted.includes(card + 1)) return 'take';
+  const netCost = card - chips;
+  if (netCost <= 0) return 'take';
+  const chipsRatio = ai.chips / CHIP_MAP[G.players.length];
+  const deckRatio = G.deck.length / 24;
+  const threshold = 6 + (1 - chipsRatio) * 4 + deckRatio * 3;
+  return netCost < threshold ? 'take' : 'pass';
+}
+
+function aiTurn() {
+  if (G.phase !== 'playing') return;
+  const ai = G.players[G.current];
+  if (ai.isHuman) { setButtons(true); render(); return; }
+  const dec = aiDecide(ai);
+  if (dec === 'take') {
+    ai.cards.push(G.currentCard);
+    ai.chips += G.chipsOnCard;
+    document.getElementById('status-msg').textContent = `${ai.name} がカード ${G.currentCard} を取りました`;
+    if (G.deck.length === 0) { render(); setTimeout(endGame, 800); return; }
+    nextCard();
+    render();
+    if (G.players[G.current].isHuman) { setButtons(true); }
+    else setTimeout(aiTurn, 700);
+  } else {
+    ai.chips--; G.chipsOnCard++;
+    document.getElementById('status-msg').textContent = `${ai.name}：どうぞどうぞ…`;
+    advanceTurn();
+    render();
+    if (G.players[G.current].isHuman) { setButtons(true); }
+    else setTimeout(aiTurn, 700);
+  }
+}
+
+function endGame() {
+  G.phase = 'ended';
+  setButtons(false);
+  const results = G.players.map(p => ({
+    name: p.name, isHuman: p.isHuman,
+    score: calcScore(p.cards, p.chips),
+    cards: [...p.cards].sort((a, b) => a - b),
+    chips: p.chips
+  }));
+  results.sort((a, b) => a.score - b.score);
+  const minScore = results[0].score;
+  const winners = results.filter(r => r.score === minScore);
+  let titleText, titleColor;
+  if (winners.some(w => w.isHuman)) {
+    titleText = winners.length === 1 ? 'あなたの勝ち！' : '引き分け！';
+    titleColor = '#0F6E56';
+  } else {
+    titleText = `${winners.map(w => w.name).join('・')} の勝ち`;
+    titleColor = '#993C1D';
+  }
+  document.getElementById('result-title').textContent = titleText;
+  document.getElementById('result-title').style.color = titleColor;
+  const tbl = document.getElementById('result-table');
+  tbl.innerHTML = '<tr><th>順位</th><th>名前</th><th>取ったカード</th><th>残チップ</th><th>合計</th></tr>' +
+    results.map((r, i) => `
+      <tr class="${r.score === minScore ? 'winner' : ''}">
+        <td>${i + 1}</td>
+        <td>${r.isHuman ? '👤 ' : ''}${r.name}</td>
+        <td style="font-size:11px;">${r.cards.join(', ') || '−'}</td>
+        <td>${r.chips}</td>
+        <td>${r.score}点</td>
+      </tr>`).join('');
+  showScreen('screen-result');
+}
+
+showSetup();
+</script>
+</body>
+</html>
