@@ -305,17 +305,31 @@
   <div id="screen-setup" class="screen active">
     <div class="setup-card">
       <div class="setup-title">どうぞどうぞ</div>
-      <div class="setup-sub">No Thanks! ベースのカードゲーム</div>
-      <div style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:0.75rem;">プレイヤー人数を選んでください（あなた＋AI）</div>
+      <div class="setup-sub">〜譲り合いの精神〜</div>
+      <div style="font-size:14px;color:var(--text2);text-align:center;margin-bottom:0.75rem;">プレイヤー人数を選んでください（あなた＋CP）</div>
       <div class="num-grid" id="num-grid"></div>
       <div class="setup-info" id="setup-info"></div>
       <button class="btn-start" onclick="startGame()">ゲーム開始</button>
+      <div style="margin-top:1.5rem;">
+        <div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;text-align:left;">遊び方</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.8;text-align:left;">
+          場に出たカードを<strong style="color:var(--text);">取る</strong>か、チップを1枚置いて<strong style="color:var(--text);">どうぞどうぞ</strong>するかを選びます。<br>
+          カードを取ると、そのカードと場のチップをすべて受け取ります。<br><br>
+          <strong style="color:var(--text);">得点（低いほど勝ち）</strong><br>
+          カードの数値がそのままマイナス点。ただし<strong style="color:var(--text);">連続する数字はまとめて最小値のみ</strong>カウント。チップ1枚につき−1点。<br><br>
+          例：17・18・19を持っていると17点だけ。残チップ3枚なら−3点。
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- ── Game ── -->
   <div id="screen-game" class="screen">
-    <div class="deck-info" id="deck-info">山札: -- 枚</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:0.5rem 0 2px;">
+      <button onclick="showSetup()" style="background:none;border:none;font-size:13px;color:var(--text2);cursor:pointer;padding:0;">← トップへ</button>
+      <div class="deck-info" id="deck-info" style="margin:0;">山札: -- 枚</div>
+      <div style="width:60px;"></div>
+    </div>
     <div class="turn-wrap" id="turn-wrap"></div>
     <div class="card-display">
       <div class="card-number" id="card-number">--</div>
@@ -362,7 +376,7 @@ function buildSetup() {
   }
   const chips = CHIP_MAP[selectedN];
   document.getElementById('setup-info').textContent =
-    `チップ ${chips} 枚 / 人　（AIは ${selectedN - 1} 人）`;
+    `チップ ${chips} 枚 / 人　（CPは ${selectedN - 1} 人）`;
 }
 
 function showSetup() { showScreen('screen-setup'); buildSetup(); }
@@ -383,9 +397,11 @@ function startGame() {
   shuffle(all);
   const deck = all.slice(9);
   const players = [];
-  for (let i = 0; i < n; i++) {
-    players.push({ name: i === 0 ? 'あなた' : 'AI ' + i, isHuman: i === 0, chips, cards: [] });
+  players.push({ name: 'あなた', isHuman: true, chips, cards: [] });
+  for (let i = 1; i < n; i++) {
+    players.push({ name: 'CP' + i, isHuman: false, chips, cards: [] });
   }
+  shuffle(players);
   G = { deck, chipsOnCard: 0, players, current: 0, currentCard: null, phase: 'playing' };
   showScreen('screen-game');
   setButtons(true);
