@@ -31,9 +31,8 @@
       --btn-pass-bg:  #1E2A40;
       --btn-pass-fg:  #C8D8F0;
       --btn-pass-bd:  #2A3A58;
-      --ui-fg:     #FDFAF3;
-      --ui-fg2:    rgba(253,250,243,0.65);
-      --ui-badge-bg: rgba(0,0,0,0.35);
+      --ui-fg:        #FDFAF3;
+      --ui-badge-bg:  rgba(0,0,0,0.35);
       --radius: 5px;
     }
 
@@ -44,7 +43,6 @@
         --felt-bg:   #1E4A12;
         --felt-ring: #12300a;
         --table-rim: #1a0e04;
-        --table-gold:#C8960A;
         --ink:       #EAD8B8;
         --ink2:      #C8A878;
         --ink3:      #907050;
@@ -53,8 +51,6 @@
         --run-bg:    #1a3a10;
         --run-fg:    #80CC60;
         --run-border:#3a8a28;
-        --ui-fg:     #FDFAF3;
-        --ui-fg2:    rgba(253,250,243,0.6);
         --ui-badge-bg: rgba(0,0,0,0.5);
       }
     }
@@ -101,8 +97,6 @@
     .howto-body strong { color: var(--ink); font-weight: 700; }
 
     /* ── Game ── */
-
-    /* トップバー */
     .topbar {
       display: flex; justify-content: space-between; align-items: center;
       padding: 6px 4px 10px;
@@ -116,73 +110,44 @@
     }
     .back-btn:hover { background: rgba(0,0,0,0.5); }
     .deck-count {
-      font-size: 13px; font-weight: 700;
-      color: var(--ui-fg);
-      background: var(--ui-badge-bg);
-      border: 1px solid rgba(253,250,243,0.25);
-      border-radius: 4px; padding: 4px 12px;
-      letter-spacing: 0.06em;
+      font-size: 13px; font-weight: 700; color: var(--ui-fg);
+      background: var(--ui-badge-bg); border: 1px solid rgba(253,250,243,0.25);
+      border-radius: 4px; padding: 4px 12px; letter-spacing: 0.06em;
     }
-
-    /* ターンバッジ */
     .turn-wrap { text-align: center; margin-bottom: 10px; min-height: 26px; }
     .turn-badge {
-      display: inline-block;
-      background: var(--ui-badge-bg);
-      border: 1.5px solid var(--ui-fg);
-      border-radius: 4px; padding: 3px 18px;
-      font-size: 13px; font-weight: 700; color: var(--ui-fg);
-      letter-spacing: 0.1em;
+      display: inline-block; background: var(--ui-badge-bg);
+      border: 1.5px solid var(--ui-fg); border-radius: 4px; padding: 3px 18px;
+      font-size: 13px; font-weight: 700; color: var(--ui-fg); letter-spacing: 0.1em;
     }
 
     /* ボード外枠（二重枠＋ゴールドライン） */
     .board-outer {
-      width: 100%;
-      background: var(--table-rim);
-      border-radius: 16px;
-      padding: 5px;
-      margin-bottom: 14px;
-      position: relative;
+      width: 100%; background: var(--table-rim);
+      border-radius: 16px; padding: 5px; margin-bottom: 14px; position: relative;
     }
     .board-outer::before {
-      content: '';
-      position: absolute; inset: 3px;
-      border-radius: 13px;
-      border: 1.5px solid var(--table-gold);
-      pointer-events: none;
-      z-index: 1;
+      content: ''; position: absolute; inset: 3px; border-radius: 13px;
+      border: 1.5px solid var(--table-gold); pointer-events: none; z-index: 1;
     }
     .board-outer::after {
-      content: '';
-      position: absolute; inset: 7px;
-      border-radius: 10px;
-      border: 1px solid rgba(200,150,10,0.35);
-      pointer-events: none;
-      z-index: 1;
+      content: ''; position: absolute; inset: 7px; border-radius: 10px;
+      border: 1px solid rgba(200,150,10,0.35); pointer-events: none; z-index: 1;
     }
     .board {
-      width: 100%;
-      background: var(--felt-bg);
-      border-radius: 12px;
+      width: 100%; background: var(--felt-bg); border-radius: 12px;
       border: 2px solid var(--felt-ring);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 24px 16px 20px;
-      gap: 14px;
-      position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px 16px 20px; gap: 14px; position: relative; overflow: hidden;
     }
 
     /* 場のカード */
     .field-card {
-      width: min(200px, 52vw);
-      aspect-ratio: 0.7;
-      border-radius: 10px;
-      background: var(--cream);
-      border: 2.5px solid var(--ink2);
-      position: relative;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      flex-shrink: 0;
+      width: min(200px, 52vw); aspect-ratio: 0.7;
+      border-radius: 10px; background: var(--cream);
+      border: 2.5px solid var(--ink2); position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      flex-shrink: 0; overflow: hidden;
     }
     .field-card.deal-anim { animation: dealFromRight 0.45s cubic-bezier(0.22,1,0.36,1); }
     @keyframes dealFromRight {
@@ -190,48 +155,55 @@
       55%  { opacity: 1; }
       100% { transform: translateX(0) rotate(0deg); opacity: 1; }
     }
-    .card-corner { position: absolute; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1; }
+    .card-corner {
+      position: absolute; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1;
+      z-index: 2;
+    }
     .card-corner.tl { top: 8px; left: 10px; }
     .card-corner.br { bottom: 8px; right: 10px; transform: rotate(180deg); }
-    .card-main-num { font-size: clamp(60px, 18vw, 88px); font-weight: 700; color: var(--ink); line-height: 1; }
+
+    /* イラスト表示エリア */
+    .card-illustration {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      position: absolute; inset: 0;
+    }
+    .card-illustration img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      padding: 24px 12px 20px;
+    }
+    /* フォールバック（SVGファイル未配置時）*/
+    .card-fallback {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      width: 100%; height: 100%;
+      padding-top: 28px;
+    }
+    .card-main-num {
+      font-size: clamp(60px, 18vw, 88px); font-weight: 700;
+      color: var(--ink); line-height: 1;
+    }
     .card-horse { margin-top: 8px; color: var(--ink); }
 
-    /* チップエリア（5×2グリッド＋枚数テキスト） */
-    .chips-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      min-height: 34px;
-    }
-    .chips-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 34px);
-      gap: 6px;
-      justify-content: center;
-    }
+    /* チップエリア */
+    .chips-area { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 34px; }
+    .chips-grid { display: grid; grid-template-columns: repeat(5, 34px); gap: 6px; justify-content: center; }
     .chip {
       width: 34px; height: 34px; border-radius: 50%;
       background: var(--chip-gold); border: 3px solid var(--chip-rim);
       display: flex; align-items: center; justify-content: center;
     }
     .chip-inner { width: 14px; height: 14px; border-radius: 50%; background: var(--chip-hi); border: 1.5px solid var(--chip-rim); }
-    .chips-label {
-      font-size: 13px; color: var(--chip-hi); font-weight: 700;
-      letter-spacing: 0.06em; text-align: center;
-    }
+    .chips-label { font-size: 13px; color: var(--chip-hi); font-weight: 700; letter-spacing: 0.06em; text-align: center; }
 
     /* ステータス */
-    .status-msg {
-      text-align: center; font-size: 13px;
-      min-height: 22px; margin: 0 0 8px;
-      letter-spacing: 0.04em;
-      color: var(--ui-fg);
-      background: var(--ui-badge-bg);
-      border-radius: 4px; padding: 3px 12px;
-      display: inline-block; width: 100%;
-    }
     .status-wrap { text-align: center; margin-bottom: 8px; min-height: 28px; }
+    .status-msg {
+      display: inline-block; width: 100%; text-align: center; font-size: 13px;
+      color: var(--ui-fg); background: var(--ui-badge-bg);
+      border-radius: 4px; padding: 3px 12px; letter-spacing: 0.04em; min-height: 22px;
+    }
 
     /* ボタン */
     .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -335,8 +307,7 @@
         <div class="field-card" id="field-card">
           <span class="card-corner tl" id="card-corner-tl">--</span>
           <span class="card-corner br" id="card-corner-br">--</span>
-          <div class="card-main-num" id="card-number">--</div>
-          <div class="card-horse" id="card-horse"></div>
+          <div class="card-illustration" id="card-illustration"></div>
         </div>
         <div class="chips-area" id="chips-area"></div>
       </div>
@@ -367,12 +338,39 @@ const CHIP_MAP = {2:11,3:11,4:11,5:11,6:9,7:7};
 let G = {};
 let selectedN = 3;
 
+/* カード番号ごとのSVGパス。ファイルが存在しない場合はフォールバック表示 */
+function cardImagePath(num) {
+  return `assets/cards/card_${String(num).padStart(2,'0')}.png`;
+}
+
+/* フォールバック用馬SVG（SVGファイル未配置時に表示） */
 const HORSE_SVG = `<svg width="52" height="36" viewBox="0 0 52 36" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M12 33C12 33 9 28 10 23C11 18 14 16 15 15C16 14 16 10 19 9C22 8 23 9 24 10C25 11 25 13 28 13C31 13 32 12 33 13C34 14 33 17 32 18L31 19C32 20 33 23 32 25C31 27 28 33 26 33L12 33Z" fill="currentColor"/>
   <path d="M15 15C15 15 14 12 15 11C16 10 18 11 18 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
   <path d="M26 33L25 35M20 33L19 35M14 33L13 35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   <circle cx="32" cy="12" r="2.5" fill="white" opacity="0.35"/>
 </svg>`;
+
+function fallbackCardHTML(num) {
+  return `<div class="card-fallback">
+    <div class="card-main-num">${num}</div>
+    <div class="card-horse" style="color:var(--ink)">${HORSE_SVG}</div>
+  </div>`;
+}
+
+function renderCardIllustration(num) {
+  const el = document.getElementById('card-illustration');
+  if (!num) { el.innerHTML = ''; return; }
+
+  const img = new Image();
+  img.onload = () => {
+    el.innerHTML = `<img src="${cardImagePath(num)}" alt="${num}">`;
+  };
+  img.onerror = () => {
+    el.innerHTML = fallbackCardHTML(num);
+  };
+  img.src = cardImagePath(num);
+}
 
 function showScreen(id) {
   ['screen-setup','screen-game','screen-result'].forEach(s => {
@@ -461,36 +459,23 @@ function getRuns(cards) {
 function renderChips(c) {
   const area = document.getElementById('chips-area');
   if (c === 0) { area.innerHTML = ''; return; }
-
-  // 表示するコイン数: 最大10枚
   const show = Math.min(c, 10);
-  // 1行目: min(show,5) 枚、2行目: show>5 の場合の残り
-  const row1 = Math.min(show, 5);
-  const row2 = show > 5 ? show - 5 : 0;
-
   let gridHtml = '<div class="chips-grid">';
   for (let i = 0; i < show; i++) {
     gridHtml += `<div class="chip"><div class="chip-inner"></div></div>`;
   }
-  // 2行目が5未満の場合、グリッドの空セルを埋めて左寄りにならないよう中央揃え
-  if (row2 > 0 && row2 < 5) {
-    // grid はrepeat(5,34px)なので自動で並ぶ、中央揃えはjustify-contentで対応
-  }
   gridHtml += '</div>';
-
-  // 枚数ラベル（常に表示）
-  const label = `<div class="chips-label">◉ ${c} 枚</div>`;
-
-  area.innerHTML = gridHtml + label;
+  area.innerHTML = gridHtml + `<div class="chips-label">◉ ${c} 枚</div>`;
 }
 
 function render() {
   document.getElementById('deck-info').textContent = `山札: ${G.deck.length} 枚`;
-  const num = G.currentCard ?? '--';
-  document.getElementById('card-number').textContent = num;
-  document.getElementById('card-corner-tl').textContent = num;
-  document.getElementById('card-corner-br').textContent = num;
-  document.getElementById('card-horse').innerHTML = G.currentCard ? HORSE_SVG : '';
+
+  const num = G.currentCard;
+  const numStr = num ?? '--';
+  document.getElementById('card-corner-tl').textContent = numStr;
+  document.getElementById('card-corner-br').textContent = numStr;
+  renderCardIllustration(num);
   renderChips(G.chipsOnCard);
 
   const cur = G.players[G.current];
