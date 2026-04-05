@@ -8,43 +8,54 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --page-bg:   #2C1F0E;
-      --card-bg:   #E8D9B8;
-      --felt-bg:   #1E3D10;
-      --felt-ring: #163008;
+      --page-bg:   #8B6340;
+      --card-bg:   #EDE0C4;
+      --felt-bg:   #2D6A1F;
+      --felt-ring: #1E4A12;
       --table-rim: #3a2008;
+      --table-gold:#C8960A;
       --ink:       #1a0e04;
-      --ink2:      #5C3D1E;
-      --ink3:      #9a7040;
+      --ink2:      #4a2e10;
+      --ink3:      #8a6030;
       --cream:     #FDFAF3;
-      --rule:      #9a7040;
-      --chip-gold: #C8860A;
-      --chip-rim:  #7A5200;
-      --chip-hi:   #E8A020;
+      --rule:      #b09060;
+      --chip-gold: #D4920C;
+      --chip-rim:  #8a5e00;
+      --chip-hi:   #F0B030;
       --run-bg:    #d4edcc;
-      --run-fg:    #1E3D10;
-      --run-border:#3a7a28;
-      --radius:    5px;
+      --run-fg:    #1E4A12;
+      --run-border:#3a8a28;
+      --btn-take-bg:  #2D6A1F;
+      --btn-take-fg:  #E8F5E2;
+      --btn-take-bd:  #1E4A12;
+      --btn-pass-bg:  #1E2A40;
+      --btn-pass-fg:  #C8D8F0;
+      --btn-pass-bd:  #2A3A58;
+      --ui-fg:     #FDFAF3;
+      --ui-fg2:    rgba(253,250,243,0.65);
+      --ui-badge-bg: rgba(0,0,0,0.35);
+      --radius: 5px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --page-bg:   #150d04;
-        --card-bg:   #2a2018;
-        --felt-bg:   #163008;
-        --felt-ring: #0d1f06;
-        --table-rim: #251404;
-        --ink:       #E8D5B0;
-        --ink2:      #C4A97A;
-        --ink3:      #8a6840;
-        --cream:     #2a2018;
-        --rule:      #6a5030;
-        --chip-gold: #C8860A;
-        --chip-rim:  #5a3a00;
-        --chip-hi:   #E8A020;
-        --run-bg:    #163008;
-        --run-fg:    #7FCC60;
-        --run-border:#3a7a28;
+        --page-bg:   #5a3a1a;
+        --card-bg:   #2e2216;
+        --felt-bg:   #1E4A12;
+        --felt-ring: #12300a;
+        --table-rim: #1a0e04;
+        --table-gold:#C8960A;
+        --ink:       #EAD8B8;
+        --ink2:      #C8A878;
+        --ink3:      #907050;
+        --cream:     #2e2216;
+        --rule:      #705030;
+        --run-bg:    #1a3a10;
+        --run-fg:    #80CC60;
+        --run-border:#3a8a28;
+        --ui-fg:     #FDFAF3;
+        --ui-fg2:    rgba(253,250,243,0.6);
+        --ui-badge-bg: rgba(0,0,0,0.5);
       }
     }
 
@@ -53,385 +64,232 @@
       background: var(--page-bg);
       color: var(--ink);
       min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+      display: flex; align-items: flex-start; justify-content: center;
       padding: 1rem;
     }
 
-    #app { width: 100%; max-width: 460px; }
+    #app { width: 100%; max-width: 480px; }
     .screen { display: none; }
     .screen.active { display: block; }
 
     /* ── Setup ── */
     .setup-card {
-      background: var(--card-bg);
-      border-radius: 10px;
-      border: 1.5px solid var(--rule);
-      padding: 2rem 1.5rem;
-      margin-top: 1rem;
+      background: var(--card-bg); border-radius: 10px;
+      border: 1.5px solid var(--rule); padding: 2rem 1.5rem; margin-top: 1rem;
     }
-    .setup-title {
-      font-size: 32px;
-      font-weight: 700;
-      text-align: center;
-      color: var(--ink);
-      letter-spacing: 0.04em;
-      margin-bottom: 2px;
-    }
-    .setup-sub {
-      text-align: center;
-      font-size: 13px;
-      color: var(--ink3);
-      margin-bottom: 1.75rem;
-      letter-spacing: 0.08em;
-    }
-    .setup-label {
-      font-size: 11px;
-      color: var(--ink3);
-      letter-spacing: 0.12em;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    .num-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-bottom: 8px;
-    }
+    .setup-title { font-size: 32px; font-weight: 700; text-align: center; color: var(--ink); letter-spacing: 0.04em; margin-bottom: 2px; }
+    .setup-sub { text-align: center; font-size: 13px; color: var(--ink3); margin-bottom: 1.75rem; letter-spacing: 0.08em; }
+    .setup-label { font-size: 11px; color: var(--ink3); letter-spacing: 0.12em; margin-bottom: 8px; text-align: center; }
+    .num-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 6px; margin-bottom: 8px; }
     .num-btn {
-      background: transparent;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius);
-      padding: 12px 4px;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: Georgia, serif;
-      cursor: pointer;
-      text-align: center;
-      color: var(--ink);
-      transition: background 0.15s;
+      background: transparent; border: 1px solid var(--rule); border-radius: var(--radius);
+      padding: 12px 4px; font-size: 14px; font-weight: 700; font-family: Georgia,serif;
+      cursor: pointer; text-align: center; color: var(--ink); transition: background 0.15s;
     }
-    .num-btn.sel {
-      background: var(--ink);
-      color: var(--cream);
-      border-color: var(--ink);
-    }
-    .setup-info {
-      text-align: center;
-      font-size: 12px;
-      color: var(--ink3);
-      margin-bottom: 1.5rem;
-      min-height: 18px;
-      letter-spacing: 0.06em;
-    }
+    .num-btn.sel { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .setup-info { text-align: center; font-size: 12px; color: var(--ink3); margin-bottom: 1.5rem; min-height: 18px; letter-spacing: 0.06em; }
     .btn-start {
-      width: 100%;
-      background: var(--ink);
-      color: var(--cream);
-      border: 1.5px solid var(--ink);
-      border-radius: var(--radius);
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: Georgia, serif;
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      transition: opacity 0.15s;
+      width: 100%; background: var(--ink); color: var(--cream);
+      border: 1.5px solid var(--ink); border-radius: var(--radius);
+      padding: 14px; font-size: 15px; font-weight: 700; font-family: Georgia,serif;
+      cursor: pointer; letter-spacing: 0.08em; transition: opacity 0.15s;
     }
     .btn-start:hover { opacity: 0.75; }
-
-    .howto {
-      margin-top: 1.5rem;
-      border-top: 1px solid var(--rule);
-      padding-top: 1rem;
-    }
-    .howto-title {
-      font-size: 11px;
-      color: var(--ink3);
-      letter-spacing: 0.12em;
-      margin-bottom: 8px;
-    }
-    .howto-body {
-      font-size: 13px;
-      color: var(--ink2);
-      line-height: 1.85;
-    }
+    .howto { margin-top: 1.5rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+    .howto-title { font-size: 11px; color: var(--ink3); letter-spacing: 0.12em; margin-bottom: 8px; }
+    .howto-body { font-size: 13px; color: var(--ink2); line-height: 1.85; }
     .howto-body strong { color: var(--ink); font-weight: 700; }
 
     /* ── Game ── */
+
+    /* トップバー */
     .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 0 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 4px 10px;
     }
     .back-btn {
-      background: none;
-      border: none;
-      font-size: 12px;
-      font-family: Georgia, serif;
-      color: var(--ink3);
-      cursor: pointer;
-      letter-spacing: 0.06em;
-      padding: 0;
+      background: var(--ui-badge-bg); border: 1px solid rgba(253,250,243,0.3);
+      border-radius: 4px; padding: 4px 10px;
+      font-size: 12px; font-family: Georgia,serif;
+      color: var(--ui-fg); cursor: pointer; letter-spacing: 0.06em;
+      transition: background 0.15s;
     }
-    .back-btn:hover { color: var(--ink2); }
+    .back-btn:hover { background: rgba(0,0,0,0.5); }
     .deck-count {
-      font-size: 12px;
-      color: var(--ink3);
+      font-size: 13px; font-weight: 700;
+      color: var(--ui-fg);
+      background: var(--ui-badge-bg);
+      border: 1px solid rgba(253,250,243,0.25);
+      border-radius: 4px; padding: 4px 12px;
       letter-spacing: 0.06em;
     }
 
-    .turn-wrap { text-align: center; margin-bottom: 8px; min-height: 22px; }
+    /* ターンバッジ */
+    .turn-wrap { text-align: center; margin-bottom: 10px; min-height: 26px; }
     .turn-badge {
       display: inline-block;
-      border: 1px solid var(--ink);
-      border-radius: 3px;
-      padding: 1px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: 0.08em;
+      background: var(--ui-badge-bg);
+      border: 1.5px solid var(--ui-fg);
+      border-radius: 4px; padding: 3px 18px;
+      font-size: 13px; font-weight: 700; color: var(--ui-fg);
+      letter-spacing: 0.1em;
     }
 
-    /* 円卓 */
-    .table-wrap {
+    /* ボード外枠（二重枠＋ゴールドライン） */
+    .board-outer {
       width: 100%;
-      aspect-ratio: 1;
-      border-radius: 50%;
       background: var(--table-rim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-      max-width: 320px;
-      border: 5px solid #1a0a00;
+      border-radius: 16px;
+      padding: 5px;
+      margin-bottom: 14px;
+      position: relative;
     }
-    .table-felt {
-      width: 92%;
-      height: 92%;
-      border-radius: 50%;
+    .board-outer::before {
+      content: '';
+      position: absolute; inset: 3px;
+      border-radius: 13px;
+      border: 1.5px solid var(--table-gold);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .board-outer::after {
+      content: '';
+      position: absolute; inset: 7px;
+      border-radius: 10px;
+      border: 1px solid rgba(200,150,10,0.35);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .board {
+      width: 100%;
       background: var(--felt-bg);
-      border: 3px solid var(--felt-ring);
+      border-radius: 12px;
+      border: 2px solid var(--felt-ring);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px 16px 20px;
+      gap: 14px;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* デッキ */
-    .deck-pile {
-      position: absolute;
-      left: 18%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 72px;
-      height: 100px;
-    }
-    .deck-c {
-      position: absolute;
-      width: 72px;
-      height: 100px;
-      border-radius: 6px;
-      border: 1.5px solid var(--felt-ring);
-      background: var(--cream);
-      top: 0; left: 0;
-    }
-    .deck-c:nth-child(1) { transform: translate(-4px, -4px); }
-    .deck-c:nth-child(2) { transform: translate(-2px, -2px); }
-    .deck-c:nth-child(3) { transform: translate(0, 0); }
-    .deck-pattern {
-      width: 100%; height: 100%;
-      border-radius: 4px;
-      background-image: repeating-linear-gradient(
-        45deg,
-        var(--felt-bg) 0px, var(--felt-bg) 3px,
-        var(--felt-ring) 3px, var(--felt-ring) 8px
-      );
-      opacity: 0.9;
-    }
-
-    /* 場のカード＋チップ */
-    .field-area {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-38%, -50%);
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
+    /* 場のカード */
     .field-card {
-      width: 100px;
-      height: 140px;
-      border-radius: 7px;
+      width: min(200px, 52vw);
+      aspect-ratio: 0.7;
+      border-radius: 10px;
       background: var(--cream);
-      border: 2px solid var(--ink2);
+      border: 2.5px solid var(--ink2);
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
-    .card-corner {
-      position: absolute;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1;
+    .field-card.deal-anim { animation: dealFromRight 0.45s cubic-bezier(0.22,1,0.36,1); }
+    @keyframes dealFromRight {
+      0%   { transform: translateX(300px) rotate(12deg); opacity: 0; }
+      55%  { opacity: 1; }
+      100% { transform: translateX(0) rotate(0deg); opacity: 1; }
     }
-    .card-corner.tl { top: 6px; left: 8px; }
-    .card-corner.br { bottom: 6px; right: 8px; transform: rotate(180deg); }
-    .card-main-num {
-      font-size: 52px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .card-horse { margin-top: 4px; color: var(--ink); }
+    .card-corner { position: absolute; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1; }
+    .card-corner.tl { top: 8px; left: 10px; }
+    .card-corner.br { bottom: 8px; right: 10px; transform: rotate(180deg); }
+    .card-main-num { font-size: clamp(60px, 18vw, 88px); font-weight: 700; color: var(--ink); line-height: 1; }
+    .card-horse { margin-top: 8px; color: var(--ink); }
 
-    /* チップ */
-    .chips-stack {
+    /* チップエリア（5×2グリッド＋枚数テキスト） */
+    .chips-area {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding-top: 6px;
       align-items: center;
-      min-width: 32px;
+      gap: 6px;
+      min-height: 34px;
+    }
+    .chips-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 34px);
+      gap: 6px;
+      justify-content: center;
     }
     .chip {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--chip-gold);
-      border: 3px solid var(--chip-rim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--chip-gold); border: 3px solid var(--chip-rim);
+      display: flex; align-items: center; justify-content: center;
     }
-    .chip-inner {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--chip-hi);
-      border: 1px solid var(--chip-rim);
-    }
-    .chips-count {
-      font-size: 11px;
-      color: var(--chip-hi);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-top: 2px;
+    .chip-inner { width: 14px; height: 14px; border-radius: 50%; background: var(--chip-hi); border: 1.5px solid var(--chip-rim); }
+    .chips-label {
+      font-size: 13px; color: var(--chip-hi); font-weight: 700;
+      letter-spacing: 0.06em; text-align: center;
     }
 
+    /* ステータス */
     .status-msg {
-      text-align: center;
-      font-size: 12px;
-      color: var(--ink3);
-      min-height: 18px;
-      margin: 2px 0 8px;
+      text-align: center; font-size: 13px;
+      min-height: 22px; margin: 0 0 8px;
       letter-spacing: 0.04em;
+      color: var(--ui-fg);
+      background: var(--ui-badge-bg);
+      border-radius: 4px; padding: 3px 12px;
+      display: inline-block; width: 100%;
     }
+    .status-wrap { text-align: center; margin-bottom: 8px; min-height: 28px; }
 
-    /* ボタン（活版） */
-    .btn-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
+    /* ボタン */
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
     .btn-take {
-      background: transparent;
-      color: var(--ink);
-      border: 1.5px solid var(--ink);
-      border-radius: var(--radius);
-      padding: 13px 8px;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: Georgia, serif;
-      cursor: pointer;
-      letter-spacing: 0.06em;
-      transition: background 0.15s, color 0.15s;
+      background: var(--btn-take-bg); color: var(--btn-take-fg);
+      border: 1.5px solid var(--btn-take-bd); border-radius: var(--radius);
+      padding: 13px 8px; font-size: 15px; font-weight: 700; font-family: Georgia,serif;
+      cursor: pointer; letter-spacing: 0.06em; transition: opacity 0.15s;
     }
-    .btn-take:hover { background: var(--ink); color: var(--cream); }
+    .btn-take:hover { opacity: 0.8; }
     .btn-pass {
-      background: transparent;
-      color: var(--ink3);
-      border: 1px solid var(--ink3);
-      border-radius: var(--radius);
-      padding: 13px 8px;
-      font-size: 15px;
-      font-family: Georgia, serif;
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      transition: background 0.15s, color 0.15s;
+      background: var(--btn-pass-bg); color: var(--btn-pass-fg);
+      border: 1.5px solid var(--btn-pass-bd); border-radius: var(--radius);
+      padding: 13px 8px; font-size: 15px; font-family: Georgia,serif;
+      cursor: pointer; letter-spacing: 0.04em; transition: opacity 0.15s;
     }
-    .btn-pass:hover { background: var(--ink3); color: var(--cream); }
-    .btn-take:disabled, .btn-pass:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-pass:hover { opacity: 0.8; }
+    .btn-take:disabled, .btn-pass:disabled { opacity: 0.25; cursor: not-allowed; }
 
     /* プレイヤーリスト */
     .players-wrap { display: flex; flex-direction: column; gap: 6px; }
     .player-row {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 9px 12px;
-      border: 1px solid var(--rule);
-      transition: border-color 0.2s;
+      background: var(--card-bg); border-radius: var(--radius);
+      padding: 9px 12px; border: 1px solid var(--rule); transition: border-color 0.2s;
     }
     .player-row.is-active { border-color: var(--ink); border-width: 1.5px; }
-    .p-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
+    .p-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .p-name { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em; }
     .p-meta { display: flex; gap: 12px; font-size: 12px; color: var(--ink3); }
     .p-score { font-weight: 700; color: var(--ink); }
     .cards-list { display: flex; flex-wrap: wrap; gap: 3px; }
     .card-tag {
-      background: transparent;
-      border: 1px solid var(--rule);
-      border-radius: 3px;
-      padding: 1px 6px;
-      font-size: 12px;
-      font-family: Georgia, serif;
-      color: var(--ink2);
+      background: transparent; border: 1px solid var(--rule); border-radius: 3px;
+      padding: 1px 6px; font-size: 12px; font-family: Georgia,serif; color: var(--ink2);
     }
-    .card-tag.run {
-      background: var(--run-bg);
-      color: var(--run-fg);
-      border-color: var(--run-border);
-    }
+    .card-tag.run { background: var(--run-bg); color: var(--run-fg); border-color: var(--run-border); }
     .no-cards { font-size: 12px; color: var(--ink3); }
 
     /* ── Result ── */
     .result-card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--rule);
-      border-radius: 10px;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      margin-top: 1rem;
+      background: var(--card-bg); border: 1.5px solid var(--rule);
+      border-radius: 10px; padding: 2rem 1.5rem; text-align: center; margin-top: 1rem;
     }
     .result-title { font-size: 26px; font-weight: 700; margin-bottom: 1rem; letter-spacing: 0.04em; }
     .result-table {
       width: 100%; border-collapse: collapse; font-size: 13px;
-      margin-bottom: 1.25rem; text-align: left; font-family: Georgia, serif;
+      margin-bottom: 1.25rem; text-align: left; font-family: Georgia,serif;
     }
     .result-table th {
-      font-weight: 700; padding: 6px 8px;
-      border-bottom: 1px solid var(--rule);
+      font-weight: 700; padding: 6px 8px; border-bottom: 1px solid var(--rule);
       color: var(--ink3); letter-spacing: 0.06em; font-size: 11px;
     }
     .result-table td { padding: 7px 8px; border-bottom: 1px solid var(--rule); color: var(--ink); }
     .result-table tr.winner td { background: var(--run-bg); color: var(--run-fg); font-weight: 700; }
     .btn-restart {
-      background: transparent; color: var(--ink);
-      border: 1.5px solid var(--ink); border-radius: var(--radius);
-      padding: 12px 36px; font-size: 14px; font-weight: 700;
-      font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.08em;
+      background: transparent; color: var(--ink); border: 1.5px solid var(--ink);
+      border-radius: var(--radius); padding: 12px 36px; font-size: 14px; font-weight: 700;
+      font-family: Georgia,serif; cursor: pointer; letter-spacing: 0.08em;
       transition: background 0.15s, color 0.15s;
     }
     .btn-restart:hover { background: var(--ink); color: var(--cream); }
@@ -453,6 +311,8 @@
         <div class="howto-title">遊び方</div>
         <div class="howto-body">
           場に出たカードを<strong>取る</strong>か、チップを1枚置いて<strong>どうぞどうぞ</strong>するかを選びます。カードを取ると、そのカードと場のチップをすべて受け取ります。<br><br>
+          <strong>カードについて</strong><br>
+          カードは<strong>3〜35の数字が1枚ずつ</strong>、全33枚。ゲーム開始時に<strong>ランダムで9枚が非公開で除外</strong>され、残り24枚で遊びます。どのカードが抜かれたかは誰にもわかりません。<br><br>
           <strong>得点（低いほど勝ち）</strong><br>
           カードの数値がそのままマイナス点。ただし<strong>連続する数字はまとめて最小値のみ</strong>カウント。チップ1枚につき −1点。<br><br>
           例：17・18・19 → 17点のみ。残チップ3枚なら −3点。
@@ -466,28 +326,25 @@
     <div class="topbar">
       <button class="back-btn" onclick="showSetup()">← トップへ</button>
       <span class="deck-count" id="deck-info">山札: -- 枚</span>
-      <span style="width:52px;"></span>
+      <span style="width:72px;"></span>
     </div>
     <div class="turn-wrap" id="turn-wrap"></div>
-    <div class="table-wrap">
-      <div class="table-felt">
-        <div class="deck-pile">
-          <div class="deck-c"></div>
-          <div class="deck-c"></div>
-          <div class="deck-c"><div class="deck-pattern"></div></div>
+
+    <div class="board-outer">
+      <div class="board">
+        <div class="field-card" id="field-card">
+          <span class="card-corner tl" id="card-corner-tl">--</span>
+          <span class="card-corner br" id="card-corner-br">--</span>
+          <div class="card-main-num" id="card-number">--</div>
+          <div class="card-horse" id="card-horse"></div>
         </div>
-        <div class="field-area">
-          <div class="field-card">
-            <span class="card-corner tl" id="card-corner-tl">--</span>
-            <span class="card-corner br" id="card-corner-br">--</span>
-            <div class="card-main-num" id="card-number">--</div>
-            <div class="card-horse" id="card-horse"></div>
-          </div>
-          <div class="chips-stack" id="chips-stack"></div>
-        </div>
+        <div class="chips-area" id="chips-area"></div>
       </div>
     </div>
-    <div class="status-msg" id="status-msg"></div>
+
+    <div class="status-wrap">
+      <span class="status-msg" id="status-msg"></span>
+    </div>
     <div class="btn-row">
       <button class="btn-take" id="btn-take" onclick="playerAction('take')">取る</button>
       <button class="btn-pass" id="btn-pass" onclick="playerAction('pass')">どうぞどうぞ</button>
@@ -510,11 +367,11 @@ const CHIP_MAP = {2:11,3:11,4:11,5:11,6:9,7:7};
 let G = {};
 let selectedN = 3;
 
-const HORSE_SVG = `<svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M9 26C9 26 6 21 7 17C8 13 11 11 12 10C13 9 13 6 16 5C19 4 20 5 21 6C22 7 22 9 24 9C27 9 28 8 29 9C30 10 29 13 28 14L27 15C28 16 29 19 28 21C27 23 24 26 22 26L9 26Z" fill="currentColor"/>
-  <path d="M12 10C12 10 11 7 12 6C13 5 15 6 15 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <path d="M22 26L21 28M17 26L16 28M11 26L10 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  <circle cx="28" cy="8" r="2" fill="white" opacity="0.4"/>
+const HORSE_SVG = `<svg width="52" height="36" viewBox="0 0 52 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 33C12 33 9 28 10 23C11 18 14 16 15 15C16 14 16 10 19 9C22 8 23 9 24 10C25 11 25 13 28 13C31 13 32 12 33 13C34 14 33 17 32 18L31 19C32 20 33 23 32 25C31 27 28 33 26 33L12 33Z" fill="currentColor"/>
+  <path d="M15 15C15 15 14 12 15 11C16 10 18 11 18 12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M26 33L25 35M20 33L19 35M14 33L13 35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="12" r="2.5" fill="white" opacity="0.35"/>
 </svg>`;
 
 function showScreen(id) {
@@ -564,15 +421,22 @@ function startGame() {
   G = { deck, chipsOnCard: 0, players, current: 0, currentCard: null, phase: 'playing' };
   showScreen('screen-game');
   setButtons(true);
-  nextCard();
+  nextCard(true);
   render();
   if (!G.players[G.current].isHuman) setTimeout(aiTurn, 800);
 }
 
-function nextCard() {
+function nextCard(skipAnim) {
   if (G.deck.length === 0) { endGame(); return; }
   G.currentCard = G.deck.pop();
   G.chipsOnCard = 0;
+  if (!skipAnim) {
+    const fc = document.getElementById('field-card');
+    fc.classList.remove('deal-anim');
+    void fc.offsetWidth;
+    fc.classList.add('deal-anim');
+    setTimeout(() => fc.classList.remove('deal-anim'), 500);
+  }
 }
 
 function calcScore(cards, chips) {
@@ -594,6 +458,32 @@ function getRuns(cards) {
   return r;
 }
 
+function renderChips(c) {
+  const area = document.getElementById('chips-area');
+  if (c === 0) { area.innerHTML = ''; return; }
+
+  // 表示するコイン数: 最大10枚
+  const show = Math.min(c, 10);
+  // 1行目: min(show,5) 枚、2行目: show>5 の場合の残り
+  const row1 = Math.min(show, 5);
+  const row2 = show > 5 ? show - 5 : 0;
+
+  let gridHtml = '<div class="chips-grid">';
+  for (let i = 0; i < show; i++) {
+    gridHtml += `<div class="chip"><div class="chip-inner"></div></div>`;
+  }
+  // 2行目が5未満の場合、グリッドの空セルを埋めて左寄りにならないよう中央揃え
+  if (row2 > 0 && row2 < 5) {
+    // grid はrepeat(5,34px)なので自動で並ぶ、中央揃えはjustify-contentで対応
+  }
+  gridHtml += '</div>';
+
+  // 枚数ラベル（常に表示）
+  const label = `<div class="chips-label">◉ ${c} 枚</div>`;
+
+  area.innerHTML = gridHtml + label;
+}
+
 function render() {
   document.getElementById('deck-info').textContent = `山札: ${G.deck.length} 枚`;
   const num = G.currentCard ?? '--';
@@ -601,18 +491,7 @@ function render() {
   document.getElementById('card-corner-tl').textContent = num;
   document.getElementById('card-corner-br').textContent = num;
   document.getElementById('card-horse').innerHTML = G.currentCard ? HORSE_SVG : '';
-
-  const stack = document.getElementById('chips-stack');
-  const c = G.chipsOnCard;
-  if (c > 0) {
-    const show = Math.min(c, 5);
-    let html = '';
-    for (let i = 0; i < show; i++) html += `<div class="chip"><div class="chip-inner"></div></div>`;
-    html += `<div class="chips-count">${c}枚</div>`;
-    stack.innerHTML = html;
-  } else {
-    stack.innerHTML = '';
-  }
+  renderChips(G.chipsOnCard);
 
   const cur = G.players[G.current];
   document.getElementById('turn-wrap').innerHTML =
@@ -625,9 +504,9 @@ function render() {
     const cardHtml = p.cards.sort((a, b) => a - b)
       .map(c => `<span class="card-tag${runs.has(c) ? ' run' : ''}">${c}</span>`).join('');
     const score = calcScore(p.cards, p.chips);
-    const row = document.createElement('div');
-    row.className = 'player-row' + (i === G.current ? ' is-active' : '');
-    row.innerHTML = `
+    const rowEl = document.createElement('div');
+    rowEl.className = 'player-row' + (i === G.current ? ' is-active' : '');
+    rowEl.innerHTML = `
       <div class="p-header">
         <span class="p-name">${p.isHuman ? '▷ ' : ''}${p.name}</span>
         <span class="p-meta">
@@ -636,7 +515,7 @@ function render() {
         </span>
       </div>
       <div class="cards-list">${cardHtml || '<span class="no-cards">カードなし</span>'}</div>`;
-    wrap.appendChild(row);
+    wrap.appendChild(rowEl);
   });
 }
 
@@ -645,22 +524,26 @@ function setButtons(on) {
   document.getElementById('btn-pass').disabled = !on;
 }
 
+function setStatus(msg) {
+  document.getElementById('status-msg').textContent = msg;
+}
+
 function playerAction(act) {
   const p = G.players[G.current];
   if (!p.isHuman || G.phase !== 'playing') return;
   if (act === 'pass' && p.chips <= 0) {
-    document.getElementById('status-msg').textContent = 'チップがありません。カードを取ってください';
+    setStatus('チップがありません。カードを取ってください');
     return;
   }
   if (act === 'take') {
     p.cards.push(G.currentCard);
     p.chips += G.chipsOnCard;
-    document.getElementById('status-msg').textContent = `カード ${G.currentCard} を取りました`;
+    setStatus(`カード ${G.currentCard} を取りました`);
     if (G.deck.length === 0) { render(); setTimeout(endGame, 600); return; }
-    nextCard();
+    nextCard(false);
   } else {
     p.chips--; G.chipsOnCard++;
-    document.getElementById('status-msg').textContent = 'どうぞどうぞ…';
+    setStatus('どうぞどうぞ…');
     advanceTurn();
     render();
     if (!G.players[G.current].isHuman) { setButtons(false); setTimeout(aiTurn, 800); }
@@ -696,15 +579,15 @@ function aiTurn() {
   if (dec === 'take') {
     ai.cards.push(G.currentCard);
     ai.chips += G.chipsOnCard;
-    document.getElementById('status-msg').textContent = `${ai.name} がカード ${G.currentCard} を取りました`;
+    setStatus(`${ai.name} がカード ${G.currentCard} を取りました`);
     if (G.deck.length === 0) { render(); setTimeout(endGame, 800); return; }
-    nextCard();
+    nextCard(false);
     render();
     if (G.players[G.current].isHuman) { setButtons(true); }
     else setTimeout(aiTurn, 700);
   } else {
     ai.chips--; G.chipsOnCard++;
-    document.getElementById('status-msg').textContent = `${ai.name}：どうぞどうぞ…`;
+    setStatus(`${ai.name}：どうぞどうぞ…`);
     advanceTurn();
     render();
     if (G.players[G.current].isHuman) { setButtons(true); }
@@ -727,7 +610,7 @@ function endGame() {
   let titleText, titleColor;
   if (winners.some(w => w.isHuman)) {
     titleText = winners.length === 1 ? 'あなたの勝ち！' : '引き分け！';
-    titleColor = '#1E3D10';
+    titleColor = '#1E4A12';
   } else {
     titleText = `${winners.map(w => w.name).join('・')} の勝ち`;
     titleColor = '#6B2737';
