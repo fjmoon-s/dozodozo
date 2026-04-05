@@ -144,7 +144,7 @@
     /* 場のカード */
     .field-card {
       width: min(200px, 52vw); aspect-ratio: 0.7;
-      border-radius: 10px; background: var(--cream);
+      border-radius: 10px; background: #FDFAF3;
       border: 2.5px solid var(--ink2); position: relative;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       flex-shrink: 0; overflow: hidden;
@@ -156,7 +156,7 @@
       100% { transform: translateX(0) rotate(0deg); opacity: 1; }
     }
     .card-corner {
-      position: absolute; font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1;
+      position: absolute; font-size: 15px; font-weight: 700; color: #1a0e04; line-height: 1;
       z-index: 2;
     }
     .card-corner.tl { top: 8px; left: 10px; }
@@ -182,9 +182,9 @@
     }
     .card-main-num {
       font-size: clamp(60px, 18vw, 88px); font-weight: 700;
-      color: var(--ink); line-height: 1;
+      color: #1a0e04; line-height: 1;
     }
-    .card-horse { margin-top: 8px; color: var(--ink); }
+    .card-horse { margin-top: 8px; color: #1a0e04; }
 
     /* チップエリア */
     .chips-area { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 34px; }
@@ -354,7 +354,7 @@ const HORSE_SVG = `<svg width="52" height="36" viewBox="0 0 52 36" fill="none" x
 function fallbackCardHTML(num) {
   return `<div class="card-fallback">
     <div class="card-main-num">${num}</div>
-    <div class="card-horse" style="color:var(--ink)">${HORSE_SVG}</div>
+    <div class="card-horse" style="color:#1a0e04">${HORSE_SVG}</div>
   </div>`;
 }
 
